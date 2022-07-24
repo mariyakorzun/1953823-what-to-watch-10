@@ -36,14 +36,7 @@ function App({ filmsNumberToRender, promoFilm }: AppProps): JSX.Element {
             </PrivateRoute>
           }
         />
-        <Route
-          path={AppRoute.AddReview}
-          element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <AddReviewPage />
-            </PrivateRoute>
-          }
-        />
+        <Route path={AppRoute.AddReview} element={ <AddReviewPage />} />
         <Route path={AppRoute.Player} element={<PlayerPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
