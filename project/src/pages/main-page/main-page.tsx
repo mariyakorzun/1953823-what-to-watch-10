@@ -1,64 +1,42 @@
 import Logo from '../../components/logo/logo';
-import FilmCard from '../../components/film-card/film-card';
+import FilmCardList from '../../components/film-card-list/film-card-list';
 import Footer from '../../components/footer/footer';
+import UserBlock from '../../components/user-block/user-block';
+import { Film, Films } from '../../types/film';
 
- type MainPageProps = {
-   filmsNumberToRender: number;
-   promoFilm: {
-     name: string;
-     genre: string;
-     year: number;
-   }
+ type MainProps = {
+   promoFilm: Film;
+   films: Films;
  }
 
-function MainPage({filmsNumberToRender, promoFilm}: MainPageProps): JSX.Element {
+function MainPage(props: MainProps): JSX.Element {
+  const { promoFilm } = props;
+  const { films } = props;
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img
-            src="img/bg-the-grand-budapest-hotel.jpg"
-            alt="The Grand Budapest Hotel"
-          />
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
           <Logo />
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img
-                  src="img/avatar.jpg"
-                  alt="User avatar"
-                  width="63"
-                  height="63"
-                />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <UserBlock />
         </header>
 
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img
-                src="img/the-grand-budapest-hotel-poster.jpg"
-                alt="The Grand Budapest Hotel poster"
-                width="218"
-                height="327"
-              />
+              <img src={promoFilm.posterImage} alt={promoFilm.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
               <h2 className="film-card__title">{promoFilm.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{promoFilm.genre}</span>
-                <span className="film-card__year">{promoFilm.year}</span>
+                <span className="film-card__year">{promoFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -144,9 +122,7 @@ Crime
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {[...Array(filmsNumberToRender)].map(() => FilmCard())}
-          </div>
+          <FilmCardList films={films}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">

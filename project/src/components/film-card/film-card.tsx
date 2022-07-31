@@ -1,21 +1,30 @@
-function SmallFilmCard(): JSX.Element {
+import { Link } from 'react-router-dom';
+
+ type FilmCardProps = {
+   id: number;
+   name: string;
+   previewImage: string;
+   onMouseEnter: (filmId: number) => void;
+   onMouseLeave: () => void;
+ };
+
+function FilmCard(props: FilmCardProps): JSX.Element {
+  const { id, name, previewImage } = props;
+  const { onMouseEnter, onMouseLeave } = props;
   return (
-    <article className="small-film-card catalog__films-card">
+    <article
+      className="small-film-card catalog__films-card"
+      onMouseEnter={() => onMouseEnter(id)}
+      onMouseLeave={() => onMouseLeave()}
+    >
       <div className="small-film-card__image">
-        <img
-          src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-          alt="Fantastic Beasts: The Crimes of Grindelwald"
-          width="280"
-          height="175"
-        />
+        <img src={previewImage} alt={name} width="280" height="175" />
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">
-           Fantastic Beasts: The Crimes of Grindelwald
-        </a>
+        <Link to={`films/${id}`} className="small-film-card__link">{name}</Link>
       </h3>
     </article>
   );
 }
 
-export default SmallFilmCard;
+export default FilmCard;
