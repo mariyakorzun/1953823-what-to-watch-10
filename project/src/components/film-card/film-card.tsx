@@ -15,14 +15,11 @@ function FilmCard(props: FilmCardProps): JSX.Element {
   const { id, name, previewImage, isPlaying, videoSrc} = props;
   const { onMouseEnter, onMouseLeave } = props;
 
-  let timer: NodeJS.Timeout;
-
   const handleMouseEnter = () => {
-    timer = setTimeout(() => onMouseEnter(id), 1000);
+    onMouseEnter(id);
   };
 
   const handleMouseLeave = () => {
-    clearTimeout(timer);
     onMouseLeave();
   };
 
