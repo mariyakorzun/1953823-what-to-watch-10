@@ -2,18 +2,18 @@ import Logo from '../../components/logo/logo';
 import FilmCardList from '../../components/film-card-list/film-card-list';
 import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
-import { Film, Films } from '../../types/film';
+import GenreList from '../../components/genre-list/genre-list';
+import { films } from '../../mocks/films';
+import React from 'react';
+import { SHOWN_FILM_LIMIT } from '../../const';
+import { useAppSelector } from '../../hooks/index';
 
- type MainProps = {
-   promoFilm: Film;
-   films: Films;
- }
+function MainPage(): JSX.Element {
+  const filmList = useAppSelector((state) => state.filmList);
+  const promoFilm = filmList[filmList.length - 1];
 
-function MainPage(props: MainProps): JSX.Element {
-  const { promoFilm } = props;
-  const { films } = props;
   return (
-    <>
+    <React.Fragment>
       <section className="film-card">
         <div className="film-card__bg">
           <img src={promoFilm.backgroundImage} alt={promoFilm.name} />
@@ -69,60 +69,9 @@ function MainPage(props: MainProps): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">
-   All genres
-              </a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
-Comedies
-              </a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
-Crime
-              </a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
- Documentary
-              </a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
- Dramas
-              </a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
- Horror
-              </a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
- Kids & Family
-              </a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
- Romance
-              </a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
- Sci-Fi
-              </a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">
- Thrillers
-              </a>
-            </li>
-          </ul>
+          <GenreList filmData={films}/>
 
-          <FilmCardList films={films}/>
+          <FilmCardList films={films.slice(0, SHOWN_FILM_LIMIT)}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">
@@ -132,7 +81,7 @@ Show more
         </section>
         <Footer />
       </div>
-    </>
+    </React.Fragment>
   );
 }
 
