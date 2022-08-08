@@ -12,3 +12,9 @@ export enum AuthorizationStatus {
      NoAuth = 'NO_AUTH',
      Unknown = 'UNKNOWN',
  }
+
+export enum Genre {
+     All = 'All genres'
+ }
+
+export const SHOWN_FILM_LIMIT = 8;
