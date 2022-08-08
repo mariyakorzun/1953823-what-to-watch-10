@@ -3,14 +3,17 @@ import FilmCardList from '../../components/film-card-list/film-card-list';
 import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
 import GenreList from '../../components/genre-list/genre-list';
-import { films } from '../../mocks/films';
+//import { films } from '../../mocks/films';
 import React from 'react';
-import { SHOWN_FILM_LIMIT } from '../../const';
+//import { SHOWN_FILM_LIMIT } from '../../const';
 import { useAppSelector } from '../../hooks/index';
 
 function MainPage(): JSX.Element {
-  const filmList = useAppSelector((state) => state.filmList);
-  const promoFilm = filmList[filmList.length - 1];
+  const { promoFilm, films, currentGenre } = useAppSelector((state) => state);
+  let filteredFilms = films;
+  if (currentGenre !== 'All genres') {
+    filteredFilms = films.filter((film) => film.genre === currentGenre);
+  }
 
   return (
     <React.Fragment>
@@ -71,7 +74,7 @@ function MainPage(): JSX.Element {
 
           <GenreList filmData={films}/>
 
-          <FilmCardList films={films.slice(0, SHOWN_FILM_LIMIT)}/>
+          <FilmCardList films={filteredFilms}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">

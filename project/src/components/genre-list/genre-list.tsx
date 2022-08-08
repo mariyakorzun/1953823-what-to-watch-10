@@ -1,19 +1,18 @@
 import { chooseGenre, getFilms } from '../../store/action';
 
-import { Film } from '../../types/film';
+import { Films } from '../../types/film';
 import { Genre } from '../../const';
-import { useAppDispatch } from '../../hooks';
-import { useState } from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 
 type GenreListProps = {
-   filmData: Film[];
+   filmData: Films;
 };
 
 function GenreList({filmData}: GenreListProps): JSX.Element {
   const genreList = [Genre.All, ...filmData.map((film) => film.genre)];
   const uniqueGenreList = [...new Set(genreList)];
 
-  const [activeGenre, setActiveGenre] = useState(Genre.All as string);
+  const { currentGenre } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   return (
@@ -21,7 +20,7 @@ function GenreList({filmData}: GenreListProps): JSX.Element {
       {uniqueGenreList.map((genre) => (
         <li
           key={genre}
-          className={genre === activeGenre
+          className={genre === currentGenre
             ? 'catalog__genres-item catalog__genres-item--active'
             : 'catalog__genres-item'}
         >
@@ -32,7 +31,6 @@ function GenreList({filmData}: GenreListProps): JSX.Element {
               e.preventDefault();
               dispatch(chooseGenre({genre}));
               dispatch(getFilms());
-              setActiveGenre(genre);
             }}
           >
             {genre}
