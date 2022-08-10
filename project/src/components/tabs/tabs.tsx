@@ -1,10 +1,12 @@
 import { Film } from '../../types/film';
 import { Comments } from '../../types/comment';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import {useState} from 'react';
+//import { useParams } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import FilmOverview from '../film-overview/film-overview';
 import FilmDetails from '../film-details/film-details';
 import FilmReviews from '../film-reviews/film-reviews';
+import { FilmTabName } from '../../const';
 
  type TabsProps = {
    film: Film;
@@ -12,13 +14,13 @@ import FilmReviews from '../film-reviews/film-reviews';
  }
 
 function Tabs({film, comments}: TabsProps): JSX.Element {
-  const { tab } = useParams();
+  const [currentTab, setTab] = useState(FilmTabName.Overview);
 
-  const renderTab = () => {
+  const renderTab = (tab: FilmTabName): JSX.Element => {
     switch (tab) {
-      case 'details':
+      case FilmTabName.Details:
         return <FilmDetails film={film}/>;
-      case 'reviews':
+      case FilmTabName.Reviews:
         return <FilmReviews comments={comments}/>;
       default:
         return <FilmOverview film={film}/>;
@@ -35,19 +37,19 @@ function Tabs({film, comments}: TabsProps): JSX.Element {
         <div className="film-card__desc">
           <nav className="film-nav film-card__nav">
             <ul className="film-nav__list">
-              <li className={tab === 'overview' || tab === undefined ? 'film-nav__item film-nav__item--active' : 'film-nav__item'}>
-                <Link to={'overview'} className="film-nav__link">Overview</Link>
+              <li className={`film-nav__item${currentTab === FilmTabName.Overview ? ' film-nav__item--active' : ''}`}>
+                <a onClick={() => setTab(FilmTabName.Overview)} className="film-nav__link" style={{cursor: 'pointer'}}>Overview</a>
               </li>
-              <li className={tab === 'details' ? 'film-nav__item film-nav__item--active' : 'film-nav__item'}>
-                <Link to={'details'} className="film-nav__link">Details</Link>
+              <li className={`film-nav__item${currentTab === FilmTabName.Details ? ' film-nav__item--active' : ''}`}>
+                <a onClick={() => setTab(FilmTabName.Details)} className="film-nav__link" style={{cursor: 'pointer'}}>Details</a>
               </li>
-              <li className={tab === 'reviews' ? 'film-nav__item film-nav__item--active' : 'film-nav__item'}>
-                <Link to={'reviews'} className="film-nav__link">Reviews</Link>
+              <li className={`film-nav__item${currentTab === FilmTabName.Reviews ? ' film-nav__item--active' : ''}`}>
+                <a onClick={() => setTab(FilmTabName.Reviews)} className="film-nav__link" style={{cursor: 'pointer'}}>Reviews</a>
               </li>
             </ul>
           </nav>
 
-          {renderTab()}
+          {renderTab(currentTab)}
         </div>
       </div>
     </div>
