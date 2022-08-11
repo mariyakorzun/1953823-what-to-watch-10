@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store/index';
+import { comments } from './mocks/comments';
+
 
 import {
   films,
@@ -19,6 +21,7 @@ root.render(
       <App
         films = {films}
         promoFilm = {promoFilm}
+        comments = {comments}
       />
     </Provider>
   </React.StrictMode>,

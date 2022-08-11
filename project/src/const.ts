@@ -17,4 +17,8 @@ export enum Genre {
      All = 'All genres'
  }
 
-export const SHOWN_FILM_LIMIT = 8;
+export enum FilmTabName {
+   Overview = 'OVERVIEW',
+   Details = 'DETAILS',
+   Reviews = 'REVIEWS'
+ }

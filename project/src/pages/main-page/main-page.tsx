@@ -3,9 +3,7 @@ import FilmCardList from '../../components/film-card-list/film-card-list';
 import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
 import GenreList from '../../components/genre-list/genre-list';
-//import { films } from '../../mocks/films';
 import React from 'react';
-//import { SHOWN_FILM_LIMIT } from '../../const';
 import { useAppSelector } from '../../hooks/index';
 
 function MainPage(): JSX.Element {
