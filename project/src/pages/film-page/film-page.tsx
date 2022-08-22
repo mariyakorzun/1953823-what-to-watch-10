@@ -3,18 +3,14 @@ import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 import { Link } from 'react-router-dom';
 import Tabs from '../../components/tabs/tabs';
 import MoreLikeThis from '../../components/more-like-this/more-like-this';
-import { Films } from '../../types/film';
-import { Comments } from '../../types/comment';
 
-type FilmPageProps = {
-   films: Films;
-   comments: Comments;
- };
-
-function FilmPage({films, comments}: FilmPageProps): JSX.Element {
+function FilmPage(): JSX.Element {
+  const films = useAppSelector((state) => state.DATA.films);
+  const comments = useAppSelector((state) => state.commonReducer.comments);
   const { id } = useParams();
   const film = films.find((item) => item.id.toString() === id);
 

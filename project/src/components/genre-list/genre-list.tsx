@@ -1,40 +1,36 @@
-import { chooseGenre, getFilms } from '../../store/action';
-
+import { chooseGenre } from '../../store/action';
+import { Link } from 'react-router-dom';
 import { Films } from '../../types/film';
-import { Genre } from '../../const';
+import { ALL_GENRES } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 
 type GenreListProps = {
    filmData: Films;
+   resetFilmsCount: () => void;
 };
 
-function GenreList({filmData}: GenreListProps): JSX.Element {
-  const genreList = [Genre.All, ...filmData.map((film) => film.genre)];
-  const uniqueGenreList = [...new Set(genreList)];
+function GenreList({filmData, resetFilmsCount}: GenreListProps): JSX.Element {
+  const { currentGenre } = useAppSelector((state) => state.commonReducer);
+  const genreListSet = new Set(filmData.map((film) => film.genre));
+  const genreList = [...genreListSet];
+  genreList.unshift(ALL_GENRES);
 
-  const { currentGenre } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
+
+  const handleGenreChange = (genre: string) => {
+    dispatch(chooseGenre(genre));
+    resetFilmsCount();
+  };
 
   return (
     <ul className="catalog__genres-list">
-      {uniqueGenreList.map((genre) => (
+      {genreList.map((genre) => (
         <li
           key={genre}
-          className={genre === currentGenre
-            ? 'catalog__genres-item catalog__genres-item--active'
-            : 'catalog__genres-item'}
+          className={genre === currentGenre ? 'catalog__genres-item catalog__genres-item--active' : 'catalog__genres-item'}
+          onClick={() => handleGenreChange(genre)}
         >
-          <a
-            href="#"
-            className="catalog__genres-link"
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(chooseGenre({genre}));
-              dispatch(getFilms());
-            }}
-          >
-            {genre}
-          </a>
+          <Link to="#" className="catalog__genres-link">{genre}</Link>
         </li>
       ))}
     </ul>

@@ -1,34 +1,55 @@
-import {createReducer} from '@reduxjs/toolkit';
-import {chooseGenre, getFilms, getPromoFilm} from './action';
+import { createReducer } from '@reduxjs/toolkit';
+import { combineReducers } from '@reduxjs/toolkit';
+import { chooseGenre, getPromoFilm, getFavoriteFilms, setError, getFilm} from './action';
 import { films, promoFilm } from '../mocks/films';
 import { Films, Film } from '../types/film';
-//import { Genre } from '../const';
+import { Comments } from '../types/comment';
+import { comments } from '../mocks/comments';
+import { NameSpace } from '../const';
+import { filmsData } from './films-data/films-data';
 
-const initialState: {
+
+type InitialState = {
   currentGenre: string;
-  films: Films;
   promoFilm: Film;
- } = {
-   currentGenre: 'All genres',
-   films,
-   promoFilm,
- };
+  favoriteFilms: Films;
+  film: Film;
+  comments: Comments;
+  error: string | null;
+ }
 
-const reducer = createReducer(
+const initialState: InitialState = {
+  currentGenre: 'All genres',
+  promoFilm,
+  favoriteFilms: films,
+  film: films[3],
+  comments,
+  error: null,
+};
+
+const commonReducer = createReducer(
   initialState,
   (builder) => {
     builder
       .addCase(chooseGenre, (state, action) => {
-        const {genre} = action.payload;
-        state.currentGenre = genre;
+        state.currentGenre = action.payload;
       })
-      .addCase(getFilms, (state) => {
-        state.films = films;
+      .addCase(getFilm, (state, action) => {
+        state.film = films[action.payload];
       })
       .addCase(getPromoFilm, (state) => {
         state.promoFilm = promoFilm;
+      })
+      .addCase(getFavoriteFilms, (state) => {
+        state.favoriteFilms = films;
+      })
+      .addCase(setError, (state, action) => {
+        state.error = action.payload;
       });
   }
 );
 
-export {reducer};
+export const reducer = combineReducers({
+  [NameSpace.Data]: filmsData.reducer,
+  commonReducer,
+});
