@@ -3,15 +3,29 @@ import FilmCardList from '../../components/film-card-list/film-card-list';
 import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
 import GenreList from '../../components/genre-list/genre-list';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import React from 'react';
 import { useAppSelector } from '../../hooks/index';
+import { useState } from 'react';
+import { FILMS_RENDERING_STEP } from '../../const';
+
 
 function MainPage(): JSX.Element {
-  const { promoFilm, films, currentGenre } = useAppSelector((state) => state);
+  const { promoFilm, currentGenre } = useAppSelector((state) => state.commonReducer);
+  const films = useAppSelector((state) => state.DATA.films);
   let filteredFilms = films;
+  const [ renderedFilmsCount, setRenderedFilmsCount ] = useState(FILMS_RENDERING_STEP);
   if (currentGenre !== 'All genres') {
-    filteredFilms = films.filter((film) => film.genre === currentGenre);
+    filteredFilms = [...films].filter((film) => film.genre === currentGenre);
   }
+  const handleShowMoreButtonClick = () => {
+    setRenderedFilmsCount(renderedFilmsCount + FILMS_RENDERING_STEP);
+  };
+
+  const resetFilmsCount = () => {
+    setRenderedFilmsCount(FILMS_RENDERING_STEP);
+  };
+  const filmsToRender = [...filteredFilms].slice(0, renderedFilmsCount);
 
   return (
     <React.Fragment>
@@ -70,15 +84,10 @@ function MainPage(): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList filmData={films}/>
+          <GenreList filmData={films} resetFilmsCount={resetFilmsCount}/>
 
-          <FilmCardList films={filteredFilms}/>
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">
-Show more
-            </button>
-          </div>
+          <FilmCardList films={filmsToRender}/>
+          {filteredFilms.length > renderedFilmsCount && <ShowMoreButton onButtonClick={handleShowMoreButtonClick}/>}
         </section>
         <Footer />
       </div>

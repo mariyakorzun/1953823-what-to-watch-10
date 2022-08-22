@@ -45,7 +45,7 @@ function FilmOverview({film}: FilmOverviewProps): JSX.Element {
       <div className="film-card__text">
         <p>{film.description}</p>
         <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-        <p className="film-card__starring"><strong>Starring: {film.starring.join('')}</strong></p>
+        <p className="film-card__starring"><strong>Starring: {film.starring.join(', ')}</strong></p>
       </div>
     </>
   );

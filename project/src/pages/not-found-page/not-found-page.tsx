@@ -1,18 +1,16 @@
-import Logo from '../../components/logo/logo';
 import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import './not-found-page.css';
 
 function NotFoundPage(): JSX.Element {
   return (
-    <section style={{
-      padding: '30px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'}}
-    >
-      <Logo />
-      <h1>404 Not Found</h1>
-      <Link to="/">Вернуться на главную</Link>
-    </section>
+    <div className='page-not-found'>
+      <div>
+        <h1>404</h1>
+        <h2>Page not found</h2>
+        <Link to={AppRoute.Main}>Back to the homepage</Link>
+      </div>
+    </div>
   );
 }
 

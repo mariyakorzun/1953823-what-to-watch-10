@@ -13,12 +13,22 @@ export enum AuthorizationStatus {
      Unknown = 'UNKNOWN',
  }
 
-export enum Genre {
-     All = 'All genres'
- }
+export const ALL_GENRES = 'All genres';
 
 export enum FilmTabName {
    Overview = 'OVERVIEW',
    Details = 'DETAILS',
    Reviews = 'REVIEWS'
  }
+
+export enum APIRoute {
+   Films = '/films',
+ }
+
+export enum NameSpace {
+   Data = 'DATA',
+ }
+
+export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const FILMS_RENDERING_STEP = 8;

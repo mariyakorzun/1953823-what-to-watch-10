@@ -1,14 +1,11 @@
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
+import { useAppSelector } from '../../hooks/index';
 
-type AddReviewProps = {
-   name: string;
-   backgroundImage: string;
-   previewImage: string;
- };
-
-function AddReview({name, backgroundImage, previewImage}: AddReviewProps): JSX.Element {
+function AddReview(): JSX.Element {
+  const film = useAppSelector((state) => state.commonReducer.film);
+  const {name, backgroundImage, previewImage} = film;
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">

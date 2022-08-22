@@ -1,5 +1,6 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks';
 import PrivateRoute from '../private-route/private-route';
 import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
@@ -8,16 +9,17 @@ import MyListPage from '../../pages/my-list-page/my-list-page';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import { Film, Films } from '../../types/film';
-import { Comments } from '../../types/comment';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
- type AppProps = {
-   promoFilm: Film;
-   films: Films;
-   comments: Comments;
- }
+function App(): JSX.Element {
+  const isDataLoading = useAppSelector((state) => state.DATA.isDataLoading);
 
-function App({promoFilm, films, comments}: AppProps): JSX.Element {
+  if (isDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -28,17 +30,17 @@ function App({promoFilm, films, comments}: AppProps): JSX.Element {
           }
         />
         <Route path={AppRoute.Login} element={<LoginPage />} />
-        <Route path={AppRoute.Film} element={<FilmPage films={films} comments={comments}/>} />
+        <Route path={AppRoute.Film} element={<FilmPage />} />
         <Route
           path={AppRoute.MyList}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <MyListPage films={films}/>
+              <MyListPage />
             </PrivateRoute>
           }
         />
-        <Route path={AppRoute.AddReview} element={ <AddReviewPage name={films[0].name} backgroundImage={films[0].backgroundImage} previewImage={films[0].previewImage}/>} />
-        <Route path={AppRoute.Player} element={<PlayerPage name={films[0].name} posterImage={films[0].posterImage} videoLink={films[0].videoLink}/>} />
+        <Route path={AppRoute.AddReview} element={ <AddReviewPage />} />
+        <Route path={AppRoute.Player} element={<PlayerPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
