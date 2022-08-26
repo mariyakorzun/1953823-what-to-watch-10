@@ -10,7 +10,7 @@ export enum AppRoute {
 export enum AuthorizationStatus {
      Auth = 'AUTH',
      NoAuth = 'NO_AUTH',
-     Unknown = 'UNKNOWN',
+     Unknown = 'UNKNOWN'
  }
 
 export const ALL_GENRES = 'All genres';
@@ -23,12 +23,13 @@ export enum FilmTabName {
 
 export enum APIRoute {
    Films = '/films',
+   Login = '/login',
+   Logout = '/logout'
  }
 
 export enum NameSpace {
    Data = 'DATA',
+   User = 'USER'
  }
-
-export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const FILMS_RENDERING_STEP = 8;
