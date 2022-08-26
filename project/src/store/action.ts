@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Films } from '../types/film';
+import { AppRoute } from '../const';
 
 export const chooseGenre = createAction('data/changeGenre',
   (value) => ({payload: value,})
@@ -14,6 +15,4 @@ export const getFilm = createAction('data/getFilm',
 );
 export const getFavoriteFilms = createAction('data/getFavoriteFilms');
 
-export const setError = createAction<string | null>('data/setError');
-
-export const setDataLoadingStatus = createAction<boolean>('data/setDataLoadingStatus');
+export const redirectToRoute = createAction<AppRoute>('app/redirectToRoute');
