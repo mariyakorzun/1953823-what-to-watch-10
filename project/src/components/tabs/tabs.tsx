@@ -1,8 +1,6 @@
 import { Film } from '../../types/film';
 import { Comments } from '../../types/comment';
 import {useState} from 'react';
-//import { useParams } from 'react-router-dom';
-//import { Link } from 'react-router-dom';
 import FilmOverview from '../film-overview/film-overview';
 import FilmDetails from '../film-details/film-details';
 import FilmReviews from '../film-reviews/film-reviews';

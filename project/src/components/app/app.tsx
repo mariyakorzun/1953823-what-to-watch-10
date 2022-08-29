@@ -12,13 +12,15 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { getLoadingStatus } from '../../store/films-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-authorization/selectors';
 
 const isAuthChecked = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
 
 function App(): JSX.Element {
-  const isDataLoading = useAppSelector((state) => state.DATA.isDataLoading);
-  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
+  const isDataLoading = useAppSelector(getLoadingStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (isDataLoading || isAuthChecked(authorizationStatus)) {
     return (
