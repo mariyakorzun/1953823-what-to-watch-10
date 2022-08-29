@@ -7,10 +7,12 @@ import { useAppSelector } from '../../hooks';
 import { Link } from 'react-router-dom';
 import Tabs from '../../components/tabs/tabs';
 import MoreLikeThis from '../../components/more-like-this/more-like-this';
+import MyListButton from '../../components/my-list-button/my-list-button';
+import { getComments } from '../../store/films-data/selectors';
 
 function FilmPage(): JSX.Element {
   const films = useAppSelector((state) => state.DATA.films);
-  const comments = useAppSelector((state) => state.commonReducer.comments);
+  const comments = useAppSelector(getComments);
   const { id } = useParams();
   const film = films.find((item) => item.id.toString() === id);
 
@@ -51,16 +53,7 @@ function FilmPage(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button
-                  className="btn btn--list film-card__button"
-                  type="button"
-                >
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <MyListButton filmId={film.id} filmStatus={film.isFavorite}/>
                 <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>
               </div>
             </div>
