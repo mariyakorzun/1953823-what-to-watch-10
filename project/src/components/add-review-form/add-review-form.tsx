@@ -65,7 +65,7 @@ function AddReviewForm(): JSX.Element {
               <button
                 className="add-review__btn"
                 type="submit"
-                disabled={reviewText.length < ReviewTextLength.Min || reviewText.length > 400}
+                disabled={reviewText.length < ReviewTextLength.Min || reviewText.length > ReviewTextLength.Max}
               >
                 Post
               </button>

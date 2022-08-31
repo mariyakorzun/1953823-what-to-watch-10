@@ -43,3 +43,8 @@ export enum ReviewTextLength {
   Min = 50,
   Max = 400,
 }
+
+export enum FavoriteStatus {
+   Add = 1,
+   Delete = 0,
+ }

@@ -18,11 +18,12 @@ export type FilmsData = {
   isFilmLoading: boolean,
   areFavoriteFilmsLoading: boolean,
   isCommentBeingPosted: boolean,
+  isFilmBeingUpdated: boolean
 };
 
 export type UserAuthorization = {
    authorizationStatus: AuthorizationStatus,
-   userData: UserData | undefined,
+   userData: UserData | undefined
 };
 
 export type AppProcess = {

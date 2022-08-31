@@ -2,7 +2,7 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import { Link } from 'react-router-dom';
 import Tabs from '../../components/tabs/tabs';
@@ -11,6 +11,7 @@ import MyListButton from '../../components/my-list-button/my-list-button';
 import { getComments } from '../../store/films-data/selectors';
 
 function FilmPage(): JSX.Element {
+  const navigate = useNavigate();
   const films = useAppSelector((state) => state.DATA.films);
   const comments = useAppSelector(getComments);
   const { id } = useParams();
@@ -19,6 +20,10 @@ function FilmPage(): JSX.Element {
   if (!film) {
     return <NotFoundPage />;
   }
+
+  const handlePlayButtonClick = () => {
+    navigate(`/player/${id}`);
+  };
 
   return (
     <>
@@ -44,10 +49,7 @@ function FilmPage(): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button
-                  className="btn btn--play film-card__button"
-                  type="button"
-                >
+                <button className="btn btn--play film-card__button" type="button" onClick={handlePlayButtonClick}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>

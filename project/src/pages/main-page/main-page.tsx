@@ -11,9 +11,11 @@ import { useState } from 'react';
 import { FILMS_RENDERING_STEP, ALL_GENRES } from '../../const';
 import { getCurrentGenre } from '../../store/app-process/selectors';
 import { getPromoFilm, getFilms } from '../../store/films-data/selectors';
+import { useNavigate } from 'react-router-dom';
 
 
 function MainPage(): JSX.Element {
+  const navigate = useNavigate();
   const currentGenre = useAppSelector(getCurrentGenre);
   const promoFilm = useAppSelector(getPromoFilm);
   const films = useAppSelector(getFilms);
@@ -28,6 +30,9 @@ function MainPage(): JSX.Element {
   };
   const resetFilmsCount = () => {
     setRenderedFilmsCount(FILMS_RENDERING_STEP);
+  };
+  const handlePlayButtonClick = () => {
+    navigate(`/player/${promoFilm.id}`);
   };
   const filmsToRender = [...filteredFilms].slice(0, renderedFilmsCount);
   return (
@@ -53,7 +58,7 @@ function MainPage(): JSX.Element {
                 <span className="film-card__year">{promoFilm.released}</span>
               </p>
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button className="btn btn--play film-card__button" type="button" onClick={handlePlayButtonClick}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>

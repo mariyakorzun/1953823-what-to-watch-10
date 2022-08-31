@@ -7,7 +7,8 @@ import { fetchFilmsAction,
   fetchSimilarFilmsAction,
   fetchFilmCommentsAction,
   fetchFavoriteFilmsAction,
-  postCommentAction
+  postCommentAction,
+  updateFilmFavoriteStatusAction
 } from '../api-actions';
 
 
@@ -24,6 +25,7 @@ const initialState: FilmsData = {
   isFilmLoading: false,
   areFavoriteFilmsLoading: false,
   isCommentBeingPosted: false,
+  isFilmBeingUpdated: false,
 };
 
 export const filmsData = createSlice({
@@ -89,6 +91,17 @@ export const filmsData = createSlice({
       })
       .addCase(postCommentAction.rejected, (state) => {
         state.isCommentBeingPosted = false;
+      })
+      .addCase(updateFilmFavoriteStatusAction.pending, (state) => {
+        state.isFilmBeingUpdated = true;
+      })
+      .addCase(updateFilmFavoriteStatusAction.fulfilled, (state, action) => {
+        state.film = action.payload;
+        state.isFilmBeingUpdated = false;
+      })
+      .addCase(updateFilmFavoriteStatusAction.rejected, (state) => {
+        state.isFilmBeingUpdated = false;
       });
+
   }
 });

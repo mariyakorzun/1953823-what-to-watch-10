@@ -5,7 +5,7 @@ import { Films, Film } from '../types/film';
 import { Comments, UserComment } from '../types/comment';
 import { redirectToRoute } from './action';
 import { saveToken, dropToken } from '../services/token';
-import { APIRoute, AppRoute } from '../const';
+import { APIRoute, AppRoute, FavoriteStatus } from '../const';
 import { AuthData } from '../types/auth-data.js';
 import { UserData } from '../types/user-data.js';
 import { isFavoriteData } from '../types/favorite-data';
@@ -95,6 +95,20 @@ export const addIsFavoriteAction = createAsyncThunk<Film, isFavoriteData, {
    },
  );
 
+export const updateFilmFavoriteStatusAction = createAsyncThunk<Film, {filmId: string, status: FavoriteStatus}, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/addFilmToFavorites',
+  async ({filmId, status}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Film>(`${APIRoute.Favorite}/${filmId}/${status}`);
+    dispatch(fetchFavoriteFilmsAction());
+    dispatch(redirectToRoute(AppRoute.MyList));
+    return data;
+  },
+);
+
 export const postCommentAction = createAsyncThunk<Comments, {filmId: string, comment: UserComment}, {
   dispatch: AppDispatch,
   state: State,
@@ -103,7 +117,7 @@ export const postCommentAction = createAsyncThunk<Comments, {filmId: string, com
   'data/postComment',
   async ({filmId, comment}, {dispatch, extra: api}) => {
     const {data} = await api.post<Comments>(`${APIRoute.Comments}/${filmId}`, comment);
-    dispatch(redirectToRoute(AppRoute.Main));
+    dispatch(redirectToRoute(`/films/${filmId}`));
     return data;
   },
 );
