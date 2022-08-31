@@ -2,21 +2,28 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import { Link } from 'react-router-dom';
 import Tabs from '../../components/tabs/tabs';
 import MoreLikeThis from '../../components/more-like-this/more-like-this';
+import MyListButton from '../../components/my-list-button/my-list-button';
+import { getComments } from '../../store/films-data/selectors';
 
 function FilmPage(): JSX.Element {
+  const navigate = useNavigate();
   const films = useAppSelector((state) => state.DATA.films);
-  const comments = useAppSelector((state) => state.commonReducer.comments);
+  const comments = useAppSelector(getComments);
   const { id } = useParams();
   const film = films.find((item) => item.id.toString() === id);
 
   if (!film) {
     return <NotFoundPage />;
   }
+
+  const handlePlayButtonClick = () => {
+    navigate(`/player/${id}`);
+  };
 
   return (
     <>
@@ -42,25 +49,13 @@ function FilmPage(): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button
-                  className="btn btn--play film-card__button"
-                  type="button"
-                >
+                <button className="btn btn--play film-card__button" type="button" onClick={handlePlayButtonClick}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button
-                  className="btn btn--list film-card__button"
-                  type="button"
-                >
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <MyListButton filmId={film.id} filmStatus={film.isFavorite}/>
                 <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>
               </div>
             </div>

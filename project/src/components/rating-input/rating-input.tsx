@@ -1,10 +1,10 @@
 import { ChangeEvent } from 'react';
 
- type RatingInputProps = {
-     rating: number;
-     onChange: ({target}: ChangeEvent<HTMLInputElement>) => void;
-     checked: boolean;
- };
+type RatingInputProps = {
+    rating: number;
+    onChange: ({target}: ChangeEvent<HTMLInputElement>) => void;
+    checked: boolean;
+};
 
 function RatingInput(props: RatingInputProps): JSX.Element {
   const { rating, onChange, checked } = props;
