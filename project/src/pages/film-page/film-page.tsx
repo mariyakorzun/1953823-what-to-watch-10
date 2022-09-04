@@ -2,6 +2,7 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
 import NotFoundPage from '../not-found-page/not-found-page';
+
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { Link, useParams } from 'react-router-dom';
@@ -68,8 +69,10 @@ function FilmPage(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
+
                 <MyListButton filmID={filmID}/>
                 <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+
               </div>
             </div>
           </div>

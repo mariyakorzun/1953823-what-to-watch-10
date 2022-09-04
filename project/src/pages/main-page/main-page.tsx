@@ -18,8 +18,10 @@ function MainPage(): JSX.Element {
   const navigate = useNavigate();
   const currentGenre = useAppSelector(getCurrentGenre);
   const promoFilm = useAppSelector(getPromoFilm);
+
   const { name, backgroundImage, posterImage, genre, released, id } = promoFilm;
   const filmID = String(id);
+
   const films = useAppSelector(getFilms);
   let filteredFilms = films;
   const [ renderedFilmsCount, setRenderedFilmsCount ] = useState(FILMS_RENDERING_STEP);
@@ -34,10 +36,11 @@ function MainPage(): JSX.Element {
     setRenderedFilmsCount(FILMS_RENDERING_STEP);
   };
   const handlePlayButtonClick = () => {
+
     navigate(`/player/${id}`);
+
   };
   const filmsToRender = [...filteredFilms].slice(0, renderedFilmsCount);
-
   return (
     <>
       <section className="film-card">
@@ -53,6 +56,7 @@ function MainPage(): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster">
               <img src={posterImage} alt={name} width="218" height="327" />
+
             </div>
             <div className="film-card__desc">
               <h2 className="film-card__title">{name}</h2>
@@ -67,7 +71,9 @@ function MainPage(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
+
                 <MyListButton filmID={filmID}/>
+
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { getFilm } from '../../store/films-data/selectors';
 import { Link } from 'react-router-dom';
 
 function AddReviewPage(): JSX.Element {
+
   const film = useAppSelector(getFilm);
   const {id, name, backgroundImage, previewImage} = film;
   return (

@@ -15,3 +15,4 @@ export const getFavoriteFilmsLoadingStatus = (state: State): boolean => state[Na
 export const getCommentStatus = (state: State): boolean => state[NameSpace.Data].isCommentBeingPosted;
 export const getFilmUpdatingStatus = (state: State): boolean => state[NameSpace.Data].isFilmBeingUpdated;
 export const getFilmStatus = (state: State): boolean | undefined => state[NameSpace.Data].film?.isFavorite;
+
