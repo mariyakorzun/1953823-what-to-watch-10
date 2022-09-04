@@ -17,7 +17,11 @@ function FilmDetails({film}: FilmDetailsProps): JSX.Element {
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
-            {film.starring.map((actor, index)=>(index === film.starring.length - 1 ? actor : <>{actor},<br/></>))}
+            {film.starring.map((actor, index)=>(
+              index === film.starring.length - 1 ?
+                <span key={actor}>{actor}</span> :
+                <span key={actor}>{actor},<br /></span>
+            ))}
           </span>
         </p>
       </div>

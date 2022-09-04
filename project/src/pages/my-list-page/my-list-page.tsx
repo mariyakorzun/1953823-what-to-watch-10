@@ -3,9 +3,10 @@ import UserBlock from '../../components/user-block/user-block';
 import Copyright from '../../components/copyright/copyright';
 import FilmCardList from '../../components/film-card-list/film-card-list';
 import { useAppSelector } from '../../hooks';
+import { getFavoriteFilms } from '../../store/films-data/selectors';
 
 function MyListPage(): JSX.Element {
-  const favoriteFilms = useAppSelector((state) => state.commonReducer.favoriteFilms);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

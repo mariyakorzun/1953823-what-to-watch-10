@@ -2,28 +2,48 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { Link, useParams } from 'react-router-dom';
 import Tabs from '../../components/tabs/tabs';
 import MoreLikeThis from '../../components/more-like-this/more-like-this';
+import MyListButton from '../../components/my-list-button/my-list-button';
+import { getComments, getFilm } from '../../store/films-data/selectors';
+import {useEffect} from 'react';
+import {fetchFilmAction, fetchSimilarFilmsAction, fetchFilmCommentsAction} from '../../store/api-actions';
 
 function FilmPage(): JSX.Element {
+  const navigate = useNavigate();
+  const params = useParams();
+  const dispatch = useAppDispatch();
   const films = useAppSelector((state) => state.DATA.films);
-  const comments = useAppSelector((state) => state.commonReducer.comments);
-  const { id } = useParams();
-  const film = films.find((item) => item.id.toString() === id);
+  const comments = useAppSelector(getComments);
+  const film = useAppSelector(getFilm);
+  const {backgroundImage, name, genre, released, id } = film;
+  const filmID = String(id);
 
-  if (!film) {
+  useEffect(() => {
+    if (params.id) {
+      dispatch(fetchFilmAction(params.id));
+      dispatch(fetchSimilarFilmsAction(params.id));
+      dispatch(fetchFilmCommentsAction(params.id));
+    }
+  }, [dispatch, params.id]);
+
+  if (!name) {
     return <NotFoundPage />;
   }
+
+  const handlePlayButtonClick = () => {
+    navigate(`/player/${id}`);
+  };
 
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.backgroundImage} alt={film.name} />
+            <img src={backgroundImage} alt={name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -35,33 +55,21 @@ function FilmPage(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.released}</span>
+                <span className="film-card__genre">{genre}</span>
+                <span className="film-card__year">{released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button
-                  className="btn btn--play film-card__button"
-                  type="button"
-                >
+                <button className="btn btn--play film-card__button" type="button" onClick={handlePlayButtonClick}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button
-                  className="btn btn--list film-card__button"
-                  type="button"
-                >
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
-                <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>
+                <MyListButton filmID={filmID}/>
+                <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -70,7 +78,7 @@ function FilmPage(): JSX.Element {
         <Tabs film={film} comments={comments}/>
       </section>
       <div className="page-content">
-        <MoreLikeThis films={films} genre={film.genre}/>
+        <MoreLikeThis films={films} genre={genre}/>
         <Footer />
       </div>
     </>

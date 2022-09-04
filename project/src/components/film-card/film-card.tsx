@@ -33,7 +33,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
         <VideoPlayer src={videoSrc} poster={previewImage} isPlaying={isPlaying}/>
       </div>
       <h3 className="small-film-card__title">
-        <Link to={`films/${id}`} className="small-film-card__link">{name}</Link>
+        <Link to={`/films/${id}`} className="small-film-card__link">{name}</Link>
       </h3>
     </article>
   );
